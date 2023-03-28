@@ -1,16 +1,13 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'tokens'
+  protected tableName = 'juegos'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.string('email', 255).notNullable().unique()
-      table.string('password', 180).notNullable()
-      table.string('remember_me_token').nullable()
-
-
+      table.increments('id')
+      table.integer('monitor')
+      table.integer('turno')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

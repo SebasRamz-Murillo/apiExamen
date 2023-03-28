@@ -20,13 +20,14 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/usuario/crear', 'UsersController.registrarUsuario')
+Route.post('/usuario/registrar', 'UsersController.registrarUsuario')
 Route.post('/usuario/login', 'UsersController.login')
-Route.post('/usuario/logout', 'UsersController.logout').middleware('auth')
+Route.post('/usuario/logout', 'UsersController.logout')
 
-Route.get('/usuario/infoObjeto', 'UsersController.infoUserObjeto').middleware('auth')
+Route.get('/usuario/infoObjeto', 'UsersController.infoUserObjeto')
 
-Route.get('/usuario/validarToken', 'UsersController.validarToken').middleware('auth')
+Route.get('/usuario/validarToken', 'UsersController.validarToken')
 
 Route.get('/verify/:id', 'UsersController.verify').as('verify')
 
+Route.get('/monitores', 'JuegosController.monitoresDisponibles')

@@ -1,6 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Juego from 'App/Models/Juego'
 import Route from '@ioc:Adonis/Core/Route'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Logger from '@ioc:Adonis/Core/Logger'
@@ -27,6 +28,7 @@ export default class UsersController {
     user.monitor = 0
 
 
+
     if (await user.save()) {
       return 'ok'
     }
@@ -40,16 +42,11 @@ export default class UsersController {
       email: schema.string(),
       password: schema.string(),
     })
-    const urlSigned = Route.makeSignedUrl('codigo', { id: user.id },
-        { expiresIn: '1 day' })
-    const url = backend + urlSigned
-    response.redirect(frontend + encodeURIComponent(urlSigned));
-
-    user.name = request.input('name')
     Logger.info(request.body())
     const email = request.body().email
     const password = request.body().password
     const payload = await request.validate({ schema: validarLogin })
+
 
     if (!payload) {
       return response.badRequest('Invalido')
@@ -72,14 +69,24 @@ export default class UsersController {
         'data': [],
       })
     }
+
+    const juego = new Juego()
+    juego.monitor = user.monitor
+    juego.turno = 0
+    juego.save(); //guarda el juego en la base de datos1
     const token = await auth.use('api').attempt(email, password, {
       expiresIn: '1 days',
     })
     return { 'token': token.token }
   }
 
-  public async logout({ auth, response }) {
+  public async logout({ auth, response, params }) {
     await auth.use('api').revoke()
+    const juego = await Juego.find(params.id)
+    if (juego) {
+      await juego.delete()
+    }
+
     return response.ok({ 'status': 200, 'mensaje': 'Sesión cerrada correctamente.', 'error': [], 'data': [] })
   }
 
@@ -121,4 +128,7 @@ export default class UsersController {
     const user = await User.findOrFail(params.id)
     return user
   }
+
+
+
 }
