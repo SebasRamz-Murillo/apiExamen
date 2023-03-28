@@ -20,6 +20,21 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+Route.post('/usuario/crear', 'UsersController.registrarUsuario')
+Route.post('/usuario/login', 'UsersController.login')
+Route.post('/usuario/recuperarCuenta', 'UsersController.recuperarCuenta')
+Route.post('/usuario/cambiarPassword', 'UsersController.cambiarPassword')
+Route.post('/usuario/logout', 'UsersController.logout').middleware('auth')
+
+
+
+Route.get('/usuario/infoObjeto', 'UsersController.infoUserObjeto').middleware('auth')
+
+Route.put('/usuario/update/:id', 'UsersController.updateUser').middleware('auth').where('id', '[0-9]+')
+Route.put('/usuario/updateRole/:id', 'UsersController.soloRol').middleware('auth').where('id', '[0-9]+')
+Route.put('/usuario/desactivar/:id', 'UsersController.desactivar').middleware('auth').where('id', '[0-9]+')
+Route.get('/usuario/validarToken', 'UsersController.validarToken').middleware('auth')
+
+Route.get('/verify/:id', 'UsersController.verify').as('verify')
+Route.post('/codigo/:id', 'UsersController.codigo').as('codigo')
+
