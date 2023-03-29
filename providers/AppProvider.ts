@@ -12,7 +12,7 @@ export default class AppProvider {
     // IoC container is ready
   }
 
-  public async ready () {
+  public async ready() {
     if (this.app.environment === 'web') {
       await import('../start/socket')
     }

@@ -5,7 +5,10 @@ Ws.boot()
  * Listen for incoming socket connections
  */
 Ws.io.on('connection', (socket) => {
-console.log(socket.id)
+  console.log(socket.id)
 })
 
-Ws.io.on('barquito', (barquito) => {})
+Ws.io.on('monitores', (monitores) => {
+  console.log(monitores)
+})
+

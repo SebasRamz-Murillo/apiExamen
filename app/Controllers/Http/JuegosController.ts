@@ -14,7 +14,7 @@ export default class JuegosController {
       .map(row => row.monitor);
     const monitoresFaltantes = _.difference(monitoresTotal, monitoresUsers);
     Ws.io.emit('monitores', monitoresFaltantes);
-    response.send(monitoresFaltantes)
+
   }
 
   //juego de un barquito, dependiendo de el monitor, es el orden en que se va a ir viendo el barco(tres numeros:1 para barco entero, 2 para la mitad izquierda, 3 para la mitad derecha) con websocker

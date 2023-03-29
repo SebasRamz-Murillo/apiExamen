@@ -21,6 +21,4 @@ class Ws {
     })
   }
 }
-
-
 export default new Ws()
